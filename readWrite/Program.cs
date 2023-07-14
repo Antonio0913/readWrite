@@ -63,8 +63,7 @@ namespace readWrite // Note: actual namespace depends on the project name.
             if (!File.Exists(input))
             {
                 Console.WriteLine("new file created");
-                FileStream fs = File.Create(input);
-                fs.Close();
+                using (FileStream fs = File.Create(input));
             }
             return input;
         }
