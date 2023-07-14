@@ -6,90 +6,88 @@ using System.Runtime.InteropServices;
 
 namespace readWrite // Note: actual namespace depends on the project name.
 {
-  internal class Program
-  {
-    static void Main(string[] args)
+    internal class Program
     {
-      menu();
-    }
-    public static List<string> Readtext(string fileName)
-    {
-      List<string> lines = new List<string>();
-      using (StreamReader sr = new StreamReader(fileName))
-      {
-
-        while (!sr.EndOfStream)
-          {
-            lines.Add(sr.ReadLine());
-          }
-      }
-      return lines;
-    }
-    public static void menu()
-    {
-      Console.WriteLine("Select an action\n1 for Read\n2 for Write\n3 to quit");
-      while (true)
-      {
-        string action = Console.ReadLine();
-        if (action == "1")
+        static void Main(string[] args)
         {
-          Console.WriteLine("type the name of the file you want to read");
-          List<string> content = Readtext(accessFile());
-          Console.WriteLine("this is the content of the file");
-          printList(content);
+            Menu();
         }
-        else if(action == "2")
+
+        public static List<string> Readtext(string fileName)
         {
-          Console.WriteLine("type the name of the file you want to write in");
-          Writetext(accessFile());
-
+            List<string> lines = new List<string>();
+            using (StreamReader sr = new StreamReader(fileName))
+            {
+                while (!sr.EndOfStream)
+                {
+                    lines.Add(sr.ReadLine());
+                }
+            }
+            return lines;
         }
-        else if(action == "3")
+
+        public static void Menu()
         {
-          break;
+            Console.WriteLine("Select an action\n1 for Read\n2 for Write\n3 to quit");
+            while (true)
+            {
+                string action = Console.ReadLine();
+                if (action == "1")
+                {
+                    Console.WriteLine("type the name of the file you want to read");
+                    List<string> content = Readtext(AccessFile());
+                    Console.WriteLine("this is the content of the file");
+                    PrintList(content);
+                }
+                else if (action == "2")
+                {
+                    Console.WriteLine("type the name of the file you want to write in");
+                    Writetext(AccessFile());
+                }
+                else if (action == "3")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("invalid action select 1, 2, or 3");
+                }
+                Console.WriteLine("select a new action");
+            }
+            Console.WriteLine("the program is done running");
         }
-        else 
+
+        public static string AccessFile()
         {
-          Console.WriteLine("invalid action select 1, 2, or 3"); 
+            string input = Console.ReadLine();
+            if (!File.Exists(input))
+            {
+                Console.WriteLine("new file created");
+                FileStream fs = File.Create(input);
+                fs.Close();
+            }
+            return input;
         }
-        Console.WriteLine("select a new action");
-      }
-      Console.WriteLine("the program is done running");
 
-
-    }
-    public static string accessFile()
-    {
-      string input = Console.ReadLine();
-      if (!File.Exists(input))
-      {
-        Console.WriteLine("new file created");
-        FileStream fs = File.Create(input);
-        fs.Close();
-      }
-
-      return input;
-    }
-    public static void printList(List<string> lines)
-    {
-      foreach (string line in lines)
-      {
-        Console.WriteLine(line);
-      }
-    }
-
-    public static void Writetext(string fileName) 
-    {
-      Console.WriteLine("type the text you want to write into the file");
-      string[] lines = Console.ReadLine().Split(@"\n");
-
-      using (StreamWriter sw = new StreamWriter(fileName)) 
-      {
-        foreach(string line in lines)
+        public static void PrintList(List<string> lines)
         {
-          sw.WriteLine(line);
+            foreach (string line in lines)
+            {
+                Console.WriteLine(line);
+            }
         }
-      }
+
+        public static void Writetext(string fileName)
+        {
+            Console.WriteLine("type the text you want to write into the file");
+            string[] lines = Console.ReadLine().Split(@"\n");
+            using (StreamWriter sw = new StreamWriter(fileName))
+            {
+                foreach (string line in lines)
+                {
+                    sw.WriteLine(line);
+                }
+            }
+        }
     }
-  }
 }
