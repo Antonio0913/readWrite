@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.IO.Enumeration;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
+﻿using System.Security.Cryptography.X509Certificates;
 
 namespace readWrite // Note: actual namespace depends on the project name.
 {
@@ -13,44 +9,52 @@ namespace readWrite // Note: actual namespace depends on the project name.
             Menu();
         }
 
-        public static List<string> Readtext(string fileName)
+        public static List<string> ReadText(string _fileName)
         {
-            List<string> lines = new List<string>();
-            using (StreamReader sr = new StreamReader(fileName))
+            List<string> _lines = new List<string>();
+            using (StreamReader _sr = new StreamReader(_fileName))
             {
-                while (!sr.EndOfStream)
+                while (!_sr.EndOfStream)
                 {
-                    lines.Add(sr.ReadLine());
+                    string? _line = _sr.ReadLine();
+                    if (_line != null)
+                    {
+                        _lines.Add(_line);
+                    }
                 }
             }
-            return lines;
+            return _lines;
         }
 
         public static void Menu()
         {
-            Console.WriteLine("Select an action\n1 for Read\n2 for Write\n3 to quit");
+            Console.WriteLine("Select an action\nRead\nWrite\nQuit");
             while (true)
             {
-                string action = Console.ReadLine();
-                if (action == "1")
+                string? _action = Console.ReadLine();
+                if (_action != null)
+                {
+                    _action.ToLower();
+                }
+                if (_action == "read")
                 {
                     Console.WriteLine("type the name of the file you want to read");
-                    List<string> content = Readtext(AccessFile());
+                    List<string> _content = ReadText(AccessFile());
                     Console.WriteLine("this is the content of the file");
-                    PrintList(content);
+                    PrintList(_content);
                 }
-                else if (action == "2")
+                else if (_action == "write")
                 {
                     Console.WriteLine("type the name of the file you want to write in");
-                    Writetext(AccessFile());
+                    WriteText(AccessFile());
                 }
-                else if (action == "3")
+                else if (_action == "quit")
                 {
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("invalid action select 1, 2, or 3");
+                    Console.WriteLine("invalid action input, read, write or quit");
                 }
                 Console.WriteLine("select a new action");
             }
@@ -59,32 +63,32 @@ namespace readWrite // Note: actual namespace depends on the project name.
 
         public static string AccessFile()
         {
-            string input = Console.ReadLine();
-            if (!File.Exists(input))
+            string _input = Console.ReadLine();
+            if (!File.Exists(_input))
             {
                 Console.WriteLine("new file created");
-                using (FileStream fs = File.Create(input));
+                using (FileStream fs = File.Create(_input));
             }
-            return input;
+            return _input;
         }
 
-        public static void PrintList(List<string> lines)
+        public static void PrintList(List<string> _lines)
         {
-            foreach (string line in lines)
+            foreach (string _line in _lines)
             {
-                Console.WriteLine(line);
+                Console.WriteLine(_line);
             }
         }
 
-        public static void Writetext(string fileName)
+        public static void WriteText(string _fileName)
         {
             Console.WriteLine("type the text you want to write into the file");
-            string[] lines = Console.ReadLine().Split(@"\n");
-            using (StreamWriter sw = new StreamWriter(fileName))
+            string[] _lines = Console.ReadLine().Split(@"\n");
+            using (StreamWriter sw = new StreamWriter(_fileName))
             {
-                foreach (string line in lines)
+                foreach (string _line in _lines)
                 {
-                    sw.WriteLine(line);
+                    sw.WriteLine(_line);
                 }
             }
         }
