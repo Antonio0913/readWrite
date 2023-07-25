@@ -87,7 +87,7 @@ namespace readWrite // Note: actual namespace depends on the project name.
         {
             Console.WriteLine("type the text you want to write into the file");
 
-            string[]? _lines = Console.ReadLine()?.Split(@"\n");
+            string[] _lines = Console.ReadLine().Split(@"\n");
             using (StreamWriter sw = new StreamWriter(_fileName))
             {
                 foreach (string _line in _lines)
