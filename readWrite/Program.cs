@@ -25,30 +25,33 @@ namespace readWrite // Note: actual namespace depends on the project name.
             }
             return _lines;
         }
-
+        enum actions
+        {
+            read=1,
+            write=2,
+            quit=3
+        }
         public static void Menu()
         {
-            Console.WriteLine("Select an action\nRead\nWrite\nQuit");
+            Console.WriteLine("Select an action\n1 for Read\n2 for Write\n3 for Quit");
             while (true)
             {
                 string? _action = Console.ReadLine();
-                if (_action != null)
-                {
-                    _action.ToLower();
-                }
-                if (_action == "read")
+                _action?.ToLower();
+
+                if (_action == actions.read.ToString())
                 {
                     Console.WriteLine("type the name of the file you want to read");
                     List<string> _content = ReadText(AccessFile());
                     Console.WriteLine("this is the content of the file");
                     PrintList(_content);
                 }
-                else if (_action == "write")
+                else if (_action == actions.write.ToString())
                 {
                     Console.WriteLine("type the name of the file you want to write in");
                     WriteText(AccessFile());
                 }
-                else if (_action == "quit")
+                else if (_action == actions.quit.ToString())
                 {
                     break;
                 }
